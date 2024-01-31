@@ -1,2 +1,3 @@
 # E-Commerce_Website
-Django Web Application
+# Author: SaifAyman23
+Django online shop application.
