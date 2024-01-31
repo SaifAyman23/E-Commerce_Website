@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 {% load static %}
-
 <html lang="en">
 
 <head>
@@ -25,14 +24,8 @@
     <link href="{% static "lib/owlcarousel/assets/owl.carousel.min.css" %}" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
 </head>
-
-{% include "includes/NavBar.html" %}
-
-{% block body %}{% endblock body %}
-
-{% include "includes/footer.html" %}
 
 <body>
     <!-- Topbar Start -->
@@ -111,6 +104,14 @@
     </div>
     <!-- Topbar End -->
 
+
+    {% comment %} nav {% endcomment %}
+    {% include "includes/NavBar.html" %}
+
+    {% block body %}{% endblock body %}
+
+
+    {% include "includes/footer.html" %}
 
 
     <!-- Back to Top -->
