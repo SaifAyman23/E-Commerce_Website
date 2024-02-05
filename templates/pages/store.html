@@ -1,7 +1,5 @@
 {% extends "base.html" %}
-
 {% block body %}
-
     <!-- Breadcrumb Start -->
     <div class="container-fluid">
         <div class="row px-xl-5">
@@ -25,7 +23,7 @@
                 <!-- Price Start -->
                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by price</span></h5>
                 <div class="bg-light p-4 mb-30">
-                    <form>
+                    <form method="get">
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" checked id="price-all">
                             <label class="custom-control-label" for="price-all">All Price</label>
@@ -33,31 +31,23 @@
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" id="price-1">
-                            <label class="custom-control-label" for="price-1">$0 - $100</label>
+                            <label class="custom-control-label" for="price-1">{{price_min.price__min}}</label>
                             <span class="badge border font-weight-normal">150</span>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-2">
-                            <label class="custom-control-label" for="price-2">$100 - $200</label>
-                            <span class="badge border font-weight-normal">295</span>
+                            <input type="checkbox" class="custom-control-input" id="price-1">
+                            <label class="custom-control-label" for="price-1">{{price_max.price__max}}</label>
+                            <span class="badge border font-weight-normal">150</span>
                         </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-3">
-                            <label class="custom-control-label" for="price-3">$200 - $300</label>
-                            <span class="badge border font-weight-normal">246</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-4">
-                            <label class="custom-control-label" for="price-4">$300 - $400</label>
-                            <span class="badge border font-weight-normal">145</span>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                            <input type="checkbox" class="custom-control-input" id="price-5">
-                            <label class="custom-control-label" for="price-5">$400 - $500</label>
-                            <span class="badge border font-weight-normal">168</span>
-                        </div>
+
+                        <button type="submit">Filter</button>
                     </form>
+                     
+                      
+                    
                 </div>
+                <!-- class="custom-control custom-checkbox d-flex align-items-center justify-content-between" -->
+                <!-- class="custom-control-input" -->
                 <!-- Price End -->
                 
                 <!-- Color Start -->
@@ -168,11 +158,11 @@
                             </div>
                         </div>
                     </div>
-                    {% for e in product %}
+                    {% for product in products %}
                     <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
                         <div class="product-item bg-light mb-4">
                             <div class="product-img position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src={{e.image.url}} alt="">
+                                <img class="img-fluid w-100" src="{{product.image.url}}" alt="">
                                 <div class="product-action">
                                     <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                                     <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
@@ -181,9 +171,10 @@
                                 </div>
                             </div>
                             <div class="text-center py-4">
-                                <a class="h6 text-decoration-none text-truncate" href="">{{e.name}}</a>
+                                <a class="h6 text-decoration-none text-truncate" href="">{{product}}</a>
                                 <div class="d-flex align-items-center justify-content-center mt-2">
-                                    <h5>${{e.price}}</h5>
+                                    <h5>${{product.price}}</h5>
+                                    {% comment %} <h6 class="text-muted ml-2"><del>$123.00</del></h6> {% endcomment %}
                                 </div>
                                 <div class="d-flex align-items-center justify-content-center mb-1">
                                     <small class="fa fa-star text-primary mr-1"></small>
@@ -197,22 +188,28 @@
                         </div>
                     </div>
                     {% endfor %}
+
+                    {% if products.has_other_pages %}
                     <div class="col-12">
                         <nav>
                           <ul class="pagination justify-content-center">
-                            <li class="page-item disabled"><a class="page-link" href="#">Previous</span></a></li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                          </ul>
+                            {% if products.has_previous %}
+                            <li class="page-item"><a class="page-link" href="?page={{products.previous_page_number}}">Previous</span></a></li>
+                            {% endif %}
+                            {% for i in products.paginator.page_range %}
+                            <li class="page-item active"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                            {% endfor %}
+                            {% if products.has_next %}
+                            <li class="page-item"><a class="page-link" href="?page={{products.next_page_number}}">Next</a></li>
+                            {% endif %}
+                        </ul>
                         </nav>
                     </div>
+                    {% endif %}
                 </div>
             </div>
             <!-- Shop Product End -->
         </div>
     </div>
     <!-- Shop End -->
-
 {% endblock body %}

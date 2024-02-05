@@ -11,4 +11,4 @@ def nav(request):
     context={
         'category':category,
     }
-    return render(request,'base.html',context)
+    return render(request,'includes/NavBar.html',context)
